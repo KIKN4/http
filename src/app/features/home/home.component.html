@@ -1,0 +1,111 @@
+<div class="filter">
+  <form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+    <div class="select-container">
+      <div>
+        <label for="sort_By">SortBy</label>
+        <select
+          class="form-select mb-2"
+          aria-label="Default select example"
+          id="sort_By"
+          formControlName="sort_By"
+        >
+          <option value="price">price</option>
+          <option value="rating">rating</option>
+          <option value="price">price</option>
+          <option value="title">title</option>
+          <option value="issue_date">issue_date</option>
+        </select>
+      </div>
+      <div>
+        <label for="direction">Direction</label>
+        <select
+          class="form-select mb-2"
+          aria-label="Default select example"
+          id="direction"
+          formControlName="sort_Direction"
+        >
+          <option value="asc">asc</option>
+          <option value="desc">desc</option>
+        </select>
+      </div>
+      @if (
+        (controls.sort_By.dirty || controls.sort_Direction.dirty) &&
+        filterForm.errors?.["sortControl"]
+      ) {
+        <div class="mt-1 text-danger">
+          {{ filterForm.errors?.["sortControl"] }}
+        </div>
+      }
+      <div>
+        <label for="minPrice">Minimum Price</label>
+        <select
+          class="form-select mb-2"
+          aria-label="Default select example"
+          id="minPrice"
+          formControlName="minPrice"
+        >
+          <option value="">Min</option>
+          @for (price of priceOptions; track $index) {
+            <option [value]="price">
+              {{ price }}
+            </option>
+          }
+        </select>
+      </div>
+      <div>
+        <label for="maxPrice">Maximum Price</label>
+        <select
+          class="form-select mb-2"
+          aria-label="Default select example"
+          id="maxPrice"
+          formControlName="maxPrice"
+        >
+          <option value="">Max</option>
+          @for (price of priceOptions; track $index) {
+            <option [value]="price">
+              {{ price }}
+            </option>
+          }
+        </select>
+        @if (
+          (controls.minPrice.dirty || controls.maxPrice.dirty) &&
+          filterForm.errors?.["minAndmaxPrice"]
+        ) {
+          <div class="text-danger">
+            {{ filterForm.errors?.["minAndmaxPrice"] }}
+          </div>
+        }
+      </div>
+    </div>
+    <button
+      type="submit"
+      [disabled]="filterForm.invalid"
+      class="btn btn-secondary"
+    >
+      Submit
+    </button>
+  </form>
+  <div class="mt-2">
+    <form [formGroup]="filterForm">
+      <label for="keywords">Search</label>
+      <input
+        class="form-control mb-2"
+        type="text"
+        id="keywords"
+        formControlName="keywords"
+      />
+    </form>
+  </div>
+</div>
+<div class="products-grid">
+  @if (products$.value.length !== 0) {
+    @for (product of products$ | async; track product._id) {
+      <app-product-card
+        [product]="product"
+        (addToCart)="onAddToCart($event)"
+      ></app-product-card>
+    }
+  } @else {
+    <h1>პროდუქტი ვერ მოიძებნა</h1>
+  }
+</div>

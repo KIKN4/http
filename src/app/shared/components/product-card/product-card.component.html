@@ -1,0 +1,31 @@
+<div class="card">
+  <img [src]="product.thumbnail" class="card-img-top" [alt]="product.title" />
+  <div class="card-body">
+    <h5 class="card-title">
+      {{ product.title }}
+    </h5>
+    <h6 class="text-secondary">
+      {{ product.price.current | currency: "GEL" }}
+    </h6>
+    <p class="card-text">
+      {{ product.description }}
+    </p>
+    <p class="card-text text-secondary">
+      Issue Date: {{ product.issueDate | date: "yyyy" }}
+    </p>
+    @if (deleteBtnVisible) {
+      <button class="btn btn-danger" (click)="deleteProduct.emit(product._id)">
+        Delete
+      </button>
+    } @else {
+      <button class="btn btn-primary" (click)="addToCart.emit(product._id)">
+        Add To Cart
+      </button>
+    }
+    <a
+      class="btn btn-secondary ms-2"
+      [routerLink]="['/', 'product', product._id]"
+      >Details</a
+    >
+  </div>
+</div>

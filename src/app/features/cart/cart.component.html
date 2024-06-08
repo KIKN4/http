@@ -1,0 +1,7 @@
+@for (product of cartProducts$ | async; track product._id) {
+<app-product-card
+  [product]="product"
+  [deleteBtnVisible]="true"
+  (deleteProduct)="onDeleteProduct($event)"
+></app-product-card>
+}

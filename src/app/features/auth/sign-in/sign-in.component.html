@@ -1,0 +1,55 @@
+<form>
+  <div class="mb-3">
+    <label for="email" class="form-label">Email address</label>
+    <input
+      type="email"
+      class="form-control"
+      id="email"
+      name="email"
+      placeholder="name@example.com"
+      [(ngModel)]="email"
+      required
+      #emailCtrl="ngModel"
+    />
+    @if (emailCtrl.dirty && !email.includes('@')) {
+      <div class="mt-1 text-danger">Email is required!</div>
+    }
+  </div>
+  <div class="mb-3">
+    <label for="password" class="form-label">Password</label>
+    <input
+      type="password"
+      class="form-control"
+      id="password"
+      name="password"
+      [(ngModel)]="password"
+      required
+      #passwordCtrl="ngModel"
+    />
+    @if (passwordCtrl.invalid && passwordCtrl.dirty) {
+      <div class="mt-1 text-danger">Password is required!</div>
+    }
+  </div>
+  <div class="mb-3">
+    <label for="keepSignedIn" class="form-check-label">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        name="keepSignedIn"
+        id="keepSignedIn"
+        [(ngModel)]="keepSignedIn"
+      />
+      Keep me signed in
+    </label>
+  </div>
+  <button
+    class="btn btn-primary"
+    [disabled]="emailCtrl.invalid || passwordCtrl.invalid"
+    (click)="onSignIn()"
+  >
+    Sign in
+  </button>
+  <div class="mt-5">
+    New here? <a routerLink="/auth/sign-up">Sign up!</a>
+  </div>
+</form>
