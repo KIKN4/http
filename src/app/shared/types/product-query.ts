@@ -1,9 +1,9 @@
 export interface ProductQuery {
   page_size?: number;
-  page_index?: number;
   keywords?: string;
   category_id?: string;
   rating?: number;
+  page_index?: number;
   price_min?: number;
   price_max?: number;
   sort_by?: SortProductBy;

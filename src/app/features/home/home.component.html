@@ -15,6 +15,14 @@
           <option value="title">title</option>
           <option value="issue_date">issue_date</option>
         </select>
+        @if (
+          (controls.sort_By.dirty || controls.sort_Direction.dirty) &&
+          filterForm.errors?.["sortControl"]
+        ) {
+          <div class="mt-1 text-danger">
+            {{ filterForm.errors?.["sortControl"] }}
+          </div>
+        }
       </div>
       <div>
         <label for="direction">Direction</label>
@@ -36,54 +44,58 @@
           {{ filterForm.errors?.["sortControl"] }}
         </div>
       }
-      <div>
-        <label for="minPrice">Minimum Price</label>
-        <select
-          class="form-select mb-2"
-          aria-label="Default select example"
-          id="minPrice"
-          formControlName="minPrice"
-        >
-          <option value="">Min</option>
-          @for (price of priceOptions; track $index) {
-            <option [value]="price">
-              {{ price }}
-            </option>
-          }
-        </select>
-      </div>
-      <div>
-        <label for="maxPrice">Maximum Price</label>
-        <select
-          class="form-select mb-2"
-          aria-label="Default select example"
-          id="maxPrice"
-          formControlName="maxPrice"
-        >
-          <option value="">Max</option>
-          @for (price of priceOptions; track $index) {
-            <option [value]="price">
-              {{ price }}
-            </option>
-          }
-        </select>
-        @if (
-          (controls.minPrice.dirty || controls.maxPrice.dirty) &&
-          filterForm.errors?.["minAndmaxPrice"]
-        ) {
-          <div class="text-danger">
-            {{ filterForm.errors?.["minAndmaxPrice"] }}
+      <!-- price range -->
+      <div class="wrapper">
+        <div class="price-input">
+          <div class="field">
+            <input
+              formControlName="minPrice"
+              type="number"
+              class="input-min"
+              value="0"
+            />
           </div>
-        }
+
+          <div class="field">
+            <input
+              formControlName="maxPrice"
+              type="number"
+              class="input-max"
+              value="10000"
+            />
+          </div>
+        </div>
+        <div class="slider">
+          <div class="progress"></div>
+        </div>
+        <div class="range-input">
+          <input
+            formControlName="minPrice"
+            type="range"
+            class="range-min"
+            min="0"
+            max="10000"
+            value="0"
+          />
+          <input
+            formControlName="maxPrice"
+            type="range"
+            class="range-max"
+            min="0"
+            max="10000"
+            value="10000"
+          />
+        </div>
       </div>
+      <!-- end of price range -->
     </div>
-    <button
+    <!-- <button
       type="submit"
       [disabled]="filterForm.invalid"
-      class="btn btn-secondary"
+      class="btn btn-secondary mt-2"
     >
       Submit
-    </button>
+    </button> -->
   </form>
   <div class="mt-2">
     <form [formGroup]="filterForm">
